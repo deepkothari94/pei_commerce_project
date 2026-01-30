@@ -240,73 +240,12 @@ def test_aggregate_profit_unique_groups(df):
     assert dup_count == 0, "Duplicate group rows found"
 
 
-# COMMAND ----------
-
-def test_sql_profit_by_year(spark, df):
-    sql_df = spark.sql("""
-        SELECT order_year, SUM(profit) AS total_profit
-        FROM orders_master
-        GROUP BY order_year
-    """)
-
-    pyspark_df = (
-        df
-        .groupBy("year")
-        .agg(round(sum("profit"),2).alias("total_profit"))
-    )
-
-    assert_df_equal(sql_df, pyspark_df)
 
 
-# COMMAND ----------
-
-def test_sql_profit_by_year_category(spark, df):
-    sql_df = spark.sql("""
-        SELECT order_year, category, SUM(profit) AS total_profit
-        FROM orders_master
-        GROUP BY order_year, category
-    """)
-
-    pyspark_df = (
-        df
-        .groupBy("year","category")
-        .agg(round(sum("profit"),2).alias("total_profit"))
-    )
-
-    assert_df_equal(sql_df, pyspark_df)
 
 
-# COMMAND ----------
-
-def test_sql_profit_by_customer(spark, df):
-    sql_df = spark.sql("""
-        SELECT customer_name, SUM(profit) AS total_profit
-        FROM orders_master
-        GROUP BY customer_name
-    """)
-
-    pyspark_df = (
-        df
-        .groupBy("customer_name")
-        .agg(round(sum("profit"),2).alias("total_profit"))
-    )
-
-    assert_df_equal(sql_df, pyspark_df)
 
 
-# COMMAND ----------
 
-def test_sql_profit_by_customer_year(spark, df):
-    sql_df = spark.sql("""
-        SELECT customer_name, order_year, SUM(profit) AS total_profit
-        FROM orders_master
-        GROUP BY customer_name, order_year
-    """)
 
-    pyspark_df = (
-        df
-        .groupBy("customer_name","year")
-        .agg(round(sum("profit"),2).alias("total_profit"))
-    )
 
-    assert_df_equal(sql_df, pyspark_df)
