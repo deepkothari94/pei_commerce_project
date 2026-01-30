@@ -1,7 +1,7 @@
 
 # PEI Ecommerce Databricks Project
 
-##Overview
+## Overview
 
 This project implements an end-to-end data engineering pipeline on **Databricks using PySpark** for an e-commerce platform.  
 The goal is to ingest raw datasets, clean and transform them, create analytical master and aggregate tables, and validate the outputs using unit tests and SQL reconciliation.
